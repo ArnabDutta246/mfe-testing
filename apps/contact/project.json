@@ -1,0 +1,101 @@
+{
+  "projectType": "application",
+  "root": "apps/contact",
+  "sourceRoot": "apps/contact/src",
+  "prefix": "mf-app",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:webpack-browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/contact",
+        "index": "apps/contact/src/index.html",
+        "main": "apps/contact/src/main.ts",
+        "polyfills": "apps/contact/src/polyfills.ts",
+        "tsConfig": "apps/contact/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/contact/src/favicon.ico", "apps/contact/src/assets"],
+        "styles": ["apps/contact/src/styles.scss"],
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "apps/contact/webpack.config.js"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/contact/src/environments/environment.ts",
+              "with": "apps/contact/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all",
+          "customWebpackConfig": {
+            "path": "apps/contact/webpack.prod.config.js"
+          }
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nrwl/angular:webpack-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "contact:build:production"
+        },
+        "development": {
+          "browserTarget": "contact:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4500,
+        "publicHost": "http://localhost:4500"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "contact:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/contact/src/**/*.ts",
+          "apps/contact/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/contact"],
+      "options": {
+        "jestConfig": "apps/contact/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
